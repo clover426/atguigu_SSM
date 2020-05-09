@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- SpringMVC的配置文件，包含网站跳转逻辑的控制，配置-->
+    <!--  use-default-filters="false"：禁用掉扫描所有的  use-default-filters="false"-->
+    <context:component-scan base-package="com.hk">
+        <!--只扫描控制器-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--<context:component-scan base-package="com.hk/>-->
+
+    <!-- 视图解析器-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+
+    <!--默认前端控制器是拦截所有的资源(除过jsp),js文件就是404-->
+    <!-- 然后告诉SpringMVC，自己映射的请求就自己处理，不能处理的就交给tomcat-->
+    <!-- 加上静态资源能访问，动态映射的请求不行-->
+    <mvc:default-servlet-handler/>
+    <!--<mvc:resources location="/static/js/" mapping="/js/**" />-->
+    <!--<mvc:resources location="/static/bootstrap-3.3.7-dist/css/" mapping="/css/**" />-->
+    <!--<mvc:resources location="/static/bootstrap-3.3.7-dist/js/" mapping="/js/**" />-->
+
+    <!-- SpringMVC可以保证动态请求和静态请求都能访问,JSR303,快捷的ajax-->
+    <mvc:annotation-driven/>
+
+</beans>
